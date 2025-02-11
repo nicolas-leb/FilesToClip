@@ -9,17 +9,8 @@ using System.Threading.Tasks;
 
 namespace FilesToClip
 {
-    internal class App
+    internal class App(ILogger<App> logger, IFileContatenator fileContatenator)
     {
-        private readonly IFileContatenator _fileContatenator;
-        private readonly ILogger _logger;
-
-        public App(ILogger<App> logger, IFileContatenator fileContatenator)
-        {
-            _fileContatenator = fileContatenator;
-            _logger = logger;
-        }
-
         public async Task RunAsync(string[] args)
         {
             RootCommand rootCommand = CreateRootCommand();
@@ -51,11 +42,11 @@ namespace FilesToClip
 
             rootCommand.SetHandler(async (extensionsOptionValue, scanFolderValue) =>
             {
-                await _fileContatenator.ConcatenateFilesAsync(extensionsOptionValue, scanFolderValue);
+                await fileContatenator.ConcatenateFilesAsync(extensionsOptionValue, scanFolderValue);
             },
                 extensionsOption, scanFolderOption);
 
-            _logger.LogDebug("Root command created.");
+            logger.LogDebug("Root command created.");
 
             return rootCommand;
         }
