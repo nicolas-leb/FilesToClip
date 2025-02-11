@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.IO.Abstractions;
@@ -11,10 +12,12 @@ namespace FilesToClip
     internal class App
     {
         private readonly IFileContatenator _fileContatenator;
+        private readonly ILogger _logger;
 
-        public App(IFileContatenator fileContatenator)
+        public App(ILogger<App> logger, IFileContatenator fileContatenator)
         {
             _fileContatenator = fileContatenator;
+            _logger = logger;
         }
 
         public async Task RunAsync(string[] args)
@@ -51,6 +54,8 @@ namespace FilesToClip
                 await _fileContatenator.ConcatenateFilesAsync(extensionsOptionValue, scanFolderValue);
             },
                 extensionsOption, scanFolderOption);
+
+            _logger.LogDebug("Root command created.");
 
             return rootCommand;
         }
