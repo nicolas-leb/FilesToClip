@@ -8,7 +8,7 @@ using TextCopy;
 
 namespace FilesToClip
 {
-    internal class FileContatenator
+    internal class FileContatenator : IFileContatenator
     {
         private readonly IFileSystem _fileSystem;
 
