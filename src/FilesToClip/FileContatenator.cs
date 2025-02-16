@@ -21,7 +21,7 @@ namespace FilesToClip
                 return;
             }
 
-            var files = fileSystem.Directory.GetFiles(folderPath, $"*{extension}");
+            var files = fileSystem.Directory.GetFiles(folderPath, $"*{extension}", SearchOption.AllDirectories);
             if (files.Length == 0)
             {
                 logger.LogWarning("No files with extension {extension} were found in {folderPath}.", extension, folderPath);
